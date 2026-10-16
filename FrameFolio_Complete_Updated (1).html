@@ -1,0 +1,1270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f5f1">
+<title>FrameFolio | Photography Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f5f1;color:#1f1d1a;font:15px/1.55 Inter,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{position:sticky;top:0;z-index:10;padding:15px 6%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#f7f5f1ed;border-bottom:1px solid #e7e2da}
+.logo{font:700 29px 'Cormorant Garamond',Georgia}
+header small{display:block;color:#8d877e;font-size:12px}
+main{width:100%;max-width:1180px;margin:auto;padding:30px 18px;flex:1}
+h1{font:600 40px 'Cormorant Garamond',Georgia;margin:0 0 10px}
+h2{font-size:18px}
+h3{font-size:16px}
+p{overflow-wrap:anywhere}
+.panel{background:white;border:1px solid #e7e2da;padding:26px;border-radius:14px;margin:20px 0}
+#loginPanel{max-width:470px;margin:25px auto;padding:32px}
+label{display:block;font-size:13px;color:#5f5a53;margin:7px 0 3px}
+input,button,textarea{font:inherit;border-radius:10px;padding:11px 13px;max-width:100%}
+input,textarea{border:1px solid #d6cfc4;width:100%;margin:6px 0 13px;background:#fdfcfa}
+textarea{min-height:75px;resize:vertical}
+button{border:1px solid transparent;background:#211f1b;color:white;cursor:pointer;margin:4px 5px 4px 0}
+button.secondary{background:white;color:#1f1d1a;border-color:#d6cfc4}
+button.danger{background:#fbeceb;color:#a63a34}
+button:disabled{opacity:.55;cursor:wait}
+a{color:#6f553a;overflow-wrap:anywhere}
+.hidden{display:none!important}
+.status{font-size:13px;color:#5f5a53;margin:10px 0;overflow-wrap:anywhere}
+.gallery-list,.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.gallery-item,.photo-card{border:1px solid #e7e2da;border-radius:12px;overflow:hidden;background:white;padding:12px}
+.photo-card img{width:100%;height:210px;object-fit:cover;display:block;border-radius:7px}
+.photo-info{padding:8px}
+.photo-info button{width:100%;margin-top:6px}
+.photo-select{width:18px;margin-right:8px}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.studio-card{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.studio-logo{width:86px;height:86px;border-radius:50%;object-fit:cover}
+/* QR codes must remain square: never apply the circular studio-logo style */
+#qrImage{display:block;width:280px;height:280px;max-width:100%;object-fit:contain;border:10px solid #fff;border-radius:8px;background:#fff;image-rendering:pixelated}
+.wedding-note{text-align:center;padding:30px 18px;background:linear-gradient(135deg,#fff,#f5ede3);border:1px solid #e7e2da;border-radius:14px;margin:18px 0 24px}
+.wedding-note h2{font:600 35px 'Cormorant Garamond',Georgia;color:#6f553a}
+.wedding-note blockquote{font:600 23px/1.4 'Cormorant Garamond',Georgia;margin:8px auto;max-width:700px}
+.contact-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;padding:26px 18px;color:#8d877e;font-size:12px;border-top:1px solid #e7e2da}
+.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 16px}
+
+/* Dashboard layout */
+.dashboard-heading{margin-bottom:20px}
+.dashboard-layout{display:grid;grid-template-columns:215px minmax(0,1fr);gap:22px;align-items:start}
+.dashboard-nav{background:#fff;border:1px solid #e7e2da;border-radius:15px;padding:12px;position:sticky;top:100px}
+.dashboard-nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin:5px 0;padding:13px 14px;background:transparent;color:#4f4941;border-radius:10px}
+.dashboard-nav button.active,.dashboard-nav button:hover{background:#211f1b;color:white}
+.nav-symbol{font-size:19px;width:25px;text-align:center}
+.dashboard-content{min-width:0}
+.dashboard-view>.panel:first-child{margin-top:0}
+.dashboard-welcome{background:linear-gradient(135deg,#fff,#f1e7da);border:1px solid #e7e2da;border-radius:16px;padding:27px;margin-bottom:18px}
+.dashboard-welcome h2{font:600 32px 'Cormorant Garamond',Georgia;margin:0 0 6px}
+.dashboard-welcome p{margin:5px 0 15px;color:#665f56}
+.dashboard-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.dashboard-stat{background:white;border:1px solid #e7e2da;border-radius:14px;padding:19px}
+.dashboard-stat strong{display:block;font:600 34px 'Cormorant Garamond',Georgia}
+.dashboard-stat span{color:#777067;font-size:13px}
+.quick-actions{display:flex;flex-wrap:wrap;gap:7px}
+.dashboard-view h2{margin-top:0}
+.gallery-search{width:100%;max-width:none;padding:13px 16px;margin:10px 0 14px;border:1px solid #ded7cd;border-radius:12px;background:white;color:#242424;font-size:15px}
+.gallery-search:focus{outline:2px solid #b9a58b;border-color:#8b7355}
+.gallery-item h3{margin:2px 0 8px;overflow-wrap:anywhere}
+.gallery-item p{font-size:12px;color:#777067;overflow-wrap:anywhere}
+.gallery-actions{display:flex;gap:5px;flex-wrap:wrap}
+.gallery-actions button{flex:1;min-width:100px;margin:3px 0;padding:9px;font-size:13px}
+.empty-state{padding:22px;border:1px dashed #d6cfc4;border-radius:12px;color:#777067;text-align:center;margin-top:12px}
+.section-caption{color:#777067;font-size:13px}
+hr{border:0;border-top:1px solid #eee8df;margin:25px 0}
+
+@media(max-width:700px){
+ main{padding:24px 13px}
+ h1{font-size:33px}
+ .panel{padding:20px 16px}
+ .dashboard-layout{grid-template-columns:1fr;gap:14px}
+ .dashboard-nav{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:7px}
+ .dashboard-nav button{justify-content:center;text-align:center;padding:11px 3px;font-size:12px;margin:0;display:flex;flex-direction:column;gap:2px}
+ .nav-symbol{font-size:19px}
+ .dashboard-stats{grid-template-columns:1fr 1fr}
+ .dashboard-welcome{padding:21px 17px}
+ .dashboard-welcome h2{font-size:28px}
+ .gallery-list,.photo-grid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}
+ .photo-card img{height:160px}
+ .gallery-actions button{min-width:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">FrameFolio</div>
+    <small>Every moment, beautifully remembered.</small>
+  </div>
+  <div>
+    <button id="settingsTopBtn" class="secondary hidden">Studio Settings</button>
+    <button id="logoutBtn" class="secondary hidden">Logout</button>
+  </div>
+</header>
+
+<main>
+<section id="loginPanel" class="panel hidden">
+  <h1 id="authHeading">Photographer Login</h1>
+  <p id="authIntro">Sign in to manage your wedding galleries.</p>
+  <form id="authForm">
+    <label for="email">Email address</label>
+    <input id="email" type="email" autocomplete="username" placeholder="Your email" required>
+    <label for="password">Password</label>
+    <input id="password" type="password" minlength="6" autocomplete="current-password" placeholder="At least 6 characters" required>
+    <button type="submit" id="authSubmit">Login</button>
+  </form>
+  <div class="toolbar">
+    <button id="signupBtn" class="secondary">Create Photographer Account</button>
+    <button id="forgotBtn" class="secondary">Forgot password?</button>
+  </div>
+  <div id="loginStatus" class="status" role="status"></div>
+</section>
+
+<!-- PHOTOGRAPHER DASHBOARD -->
+<section id="adminArea" class="hidden">
+  <div class="dashboard-heading">
+    <h1>Studio Dashboard</h1>
+    <p>Manage your studio, organise weddings, and share beautiful memories.</p>
+  </div>
+
+  <div class="dashboard-layout">
+    <nav class="dashboard-nav" aria-label="Dashboard sections">
+      <button type="button" class="active" data-view="homeView">
+        <span class="nav-symbol">⌂</span><span>Home</span>
+      </button>
+      <button type="button" data-view="uploadView">
+        <span class="nav-symbol">▧</span><span>Upload / Galleries</span>
+      </button>
+      <button type="button" data-view="settingsView">
+        <span class="nav-symbol">⚙</span><span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="dashboard-content">
+
+      <!-- HOME -->
+      <section id="homeView" class="dashboard-view">
+        <div class="dashboard-welcome">
+          <h2 id="homeWelcome">Welcome to FrameFolio</h2>
+          <p>Your photography studio, all in one place.</p>
+          <div class="quick-actions">
+            <button type="button" id="homeUploadBtn">+ Create Wedding Gallery</button>
+            <button type="button" class="secondary" id="homeSettingsBtn">Edit Studio Settings</button>
+          </div>
+        </div>
+
+        <div class="dashboard-stats">
+          <div class="dashboard-stat">
+            <strong id="totalGalleryCount">0</strong>
+            <span>Wedding galleries</span>
+          </div>
+          <div class="dashboard-stat">
+            <strong id="studioCompletion">Not set</strong>
+            <span>Studio profile</span>
+          </div>
+        </div>
+
+        <section class="panel">
+          <h2>Your Studio</h2>
+          <div class="studio-card">
+            <img id="studioLogoPreview" class="studio-logo hidden" alt="Studio logo">
+            <div>
+              <strong id="studioNamePreview">Your photography studio</strong>
+              <div id="studioShortPreview" class="section-caption">Add your studio details in Settings.</div>
+            </div>
+          </div>
+          <p class="section-caption">Keep your studio information up to date so wedding guests can contact you.</p>
+          <button type="button" class="secondary" id="homeProfileBtn">View Studio Settings</button>
+        </section>
+
+        <section class="panel">
+          <h2>Recent Wedding Galleries</h2>
+          <p class="section-caption">Your latest wedding galleries appear here.</p>
+          <div id="recentGalleryList" class="gallery-list"></div>
+          <div id="recentEmpty" class="empty-state">Your galleries will appear here after you create one.</div>
+          <button type="button" id="viewAllGalleriesBtn">View All Galleries</button>
+        </section>
+      </section>
+
+      <!-- UPLOAD AND GALLERIES -->
+      <section id="uploadView" class="dashboard-view hidden">
+        <h1>Upload / Galleries</h1>
+        <p class="section-caption">Create weddings, upload photos, and share guest QR codes.</p>
+
+        <section class="panel">
+          <h2>Create a Wedding Gallery</h2>
+          <form id="createGalleryForm">
+            <label for="customerName">Wedding / Customer name</label>
+            <input id="customerName" maxlength="100" placeholder="Example: Rahul & Priya Wedding" required>
+            <button type="submit" id="createBtn">Create Gallery</button>
+          </form>
+          <div id="createStatus" class="status"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Your Wedding Galleries</h2>
+          <input id="gallerySearch" class="gallery-search" type="search" placeholder="🔎 Search by wedding or customer name..." aria-label="Search wedding galleries">
+          <div id="galleryStatus" class="status"></div>
+          <div id="galleryList" class="gallery-list"></div>
+          <div id="galleryEmpty" class="empty-state hidden">No matching galleries found.</div>
+        </section>
+
+        <section id="managePanel" class="panel hidden">
+          <h2 id="manageTitle">Manage Wedding</h2>
+          <button id="shareQrBtn">Show / Share QR Code</button>
+          <button id="copyLinkBtn" class="secondary">Copy Guest Link</button>
+
+          <section class="panel" style="margin:18px 0;background:#fdfcfa">
+            <h2>Guest Gallery Greeting</h2>
+            <p class="section-caption">Personalise the message for this event. It will only affect this gallery.</p>
+            <label for="eventGreetingTitle">Greeting heading</label>
+            <input id="eventGreetingTitle" maxlength="120" placeholder="Example: Happy Wedding! ♡">
+            <label for="eventGreetingMessage">Main greeting / event name</label>
+            <textarea id="eventGreetingMessage" maxlength="1000" placeholder="Example: monkey man"></textarea>
+            <label for="eventGreetingSubmessage">Description below the main greeting (optional)</label>
+            <textarea id="eventGreetingSubmessage" maxlength="1000" placeholder="Write a message for this birthday, wedding, or event. Leave blank to hide it."></textarea>
+            <button type="button" id="saveGreetingBtn">Save Greeting</button>
+            <div id="greetingStatus" class="status" role="status"></div>
+          </section>
+
+          <div id="qrArea" class="hidden">
+            <hr>
+            <h2>Wedding QR Code</h2>
+            <div id="qrStatus" class="status" role="status"></div>
+            <img id="qrImage" alt="Wedding QR code">
+            <button id="downloadQrBtn" class="secondary" type="button">Download QR Code</button>
+            <p><a id="guestLink" href="#" target="_blank" rel="noopener">Open guest gallery</a></p>
+            <button id="openGuestBtn" class="secondary">Open Guest Gallery</button>
+          </div>
+
+          <hr>
+          <h2>Upload Wedding Photos</h2>
+          <input id="photoFiles" type="file" accept="image/*" multiple>
+          <button id="uploadBtn">Upload Selected Photos</button>
+          <div id="uploadStatus" class="status"></div>
+
+          <hr>
+          <h2>Manage Photos</h2>
+          <div id="managePhotoStatus" class="status"></div>
+          <div id="managePhotos" class="photo-grid"></div>
+        </section>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settingsView" class="dashboard-view hidden">
+        <h1>Studio Settings</h1>
+        <p class="section-caption">Manage the studio information displayed to wedding guests.</p>
+
+        <section class="panel">
+          <h2>Your Studio Profile</h2>
+          <div class="studio-card">
+            <img id="settingsLogoPreview" class="studio-logo hidden" alt="Studio logo preview">
+            <div>
+              <strong id="settingsStudioNamePreview">Your photography studio</strong>
+              <div id="settingsStudioShortPreview" class="section-caption">Your public studio profile</div>
+            </div>
+          </div>
+
+          <form id="studioForm">
+            <div class="two-col">
+              <div><label for="studioName">Studio name *</label><input id="studioName" maxlength="100" required></div>
+              <div><label for="studioPhone">Studio phone</label><input id="studioPhone" type="tel"></div>
+              <div><label for="studioWhatsapp">WhatsApp number</label><input id="studioWhatsapp" type="tel" placeholder="Country code + number"></div>
+              <div><label for="studioEmail">Public contact email</label><input id="studioEmail" type="email"></div>
+              <div><label for="studioCity">City</label><input id="studioCity"></div>
+              <div><label for="studioWebsite">Website link</label><input id="studioWebsite" type="url" placeholder="https://..."></div>
+              <div><label for="studioInstagram">Instagram link</label><input id="studioInstagram" type="url" placeholder="https://instagram.com/..."></div>
+              <div><label for="studioFacebook">Facebook link</label><input id="studioFacebook" type="url" placeholder="https://facebook.com/..."></div>
+            </div>
+            <label for="studioAddress">Studio address</label>
+            <textarea id="studioAddress"></textarea>
+            <label for="studioTagline">Studio tagline / description</label>
+            <textarea id="studioTagline" placeholder="Capturing your most meaningful moments."></textarea>
+            <label for="studioLogoFile">Studio logo image</label>
+            <input id="studioLogoFile" type="file" accept="image/png,image/jpeg,image/webp">
+            <button id="saveStudioBtn" type="submit">Save Studio Settings</button>
+            <div id="studioStatus" class="status"></div>
+          </form>
+        </section>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLIC GUEST GALLERY -->
+<section id="guestArea" class="hidden">
+  <div id="guestStudio" class="panel">
+    <div class="studio-card">
+      <img id="guestStudioLogo" class="studio-logo hidden" alt="Studio logo">
+      <div>
+        <h2 id="guestStudioName">Photography Studio</h2>
+        <p id="guestStudioTagline"></p>
+        <p id="guestStudioAddress"></p>
+        <div id="guestContactLinks" class="contact-links"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wedding-note">
+    <h2 id="guestGreetingTitle">Happy Wedding! ♡</h2>
+    <blockquote id="guestGreetingMessage">“Two hearts, one beautiful journey, and a lifetime of memories to create.”</blockquote>
+    <p id="guestGreetingSubmessage" class="hidden"></p>
+    <small id="guestStudioSignature">WITH LOVE FROM YOUR PHOTOGRAPHY STUDIO</small>
+  </div>
+
+  <h1 id="guestTitle">Wedding Gallery</h1>
+  <p>Select your favourite moments and save them to your device.</p>
+  <div class="panel">
+    <div class="toolbar">
+      <button id="selectAllBtn" class="secondary">Select All</button>
+      <button id="clearSelectionBtn" class="secondary">Clear Selection</button>
+      <button id="downloadZipBtn">Download Selected ZIP</button>
+    </div>
+    <p id="selectionStatus">0 photos selected.</p>
+    <div id="zipStatus" class="status"></div>
+  </div>
+  <div id="guestPhotoStatus" class="status"></div>
+  <div id="guestPhotos" class="photo-grid"></div>
+</section>
+
+<section id="notFoundArea" class="panel hidden">
+  <h1>Gallery unavailable</h1>
+  <p>This gallery link may be incorrect, or the gallery may no longer be available.</p>
+</section>
+</main>
+
+<footer>FrameFolio · Keep your memories close.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  onAuthStateChanged, sendPasswordResetEmail, signOut
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, getDoc, getDocs, doc, query,
+  where, serverTimestamp, deleteDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA-G2guae7rX9w3uQYVDMiIlzWN5j9lnJQ",
+  authDomain: "framefolio-gallery.firebaseapp.com",
+  projectId: "framefolio-gallery",
+  storageBucket: "framefolio-gallery.firebasestorage.app",
+  messagingSenderId: "867132582416",
+  appId: "1:867132582416:web:66c9463dab4e38a0533895",
+  measurementId: "G-FWDJ42K5V3"
+};
+
+const CLOUDINARY_CLOUD_NAME = "d7lfnspk";
+const CLOUDINARY_UPLOAD_PRESET = "framefolio_upload";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const galleryParam = params.get("gallery");
+const isGuestMode = Boolean(galleryParam);
+
+let currentGalleryId = null;
+let currentGalleryName = "";
+let guestPhotos = [];
+let selectedPhotoIds = new Set();
+let signupMode = false;
+let allGalleries = [];
+
+function show(id, visible=true) {
+  $(id).classList.toggle("hidden", !visible);
+}
+function message(id, text) {
+  $(id).textContent = text;
+}
+function safeFilename(name) {
+  return String(name || "photo.jpg").replace(/[\\/:*?"<>|]/g,"_").replace(/[\r\n]/g,"_");
+}
+function baseUrl() {
+  return location.origin + location.pathname;
+}
+function galleryUrl(id) {
+  return baseUrl() + "?gallery=" + encodeURIComponent(id);
+}
+
+/* Dashboard navigation */
+function switchView(viewId) {
+  document.querySelectorAll(".dashboard-view").forEach(view => {
+    view.classList.toggle("hidden", view.id !== viewId);
+  });
+  document.querySelectorAll(".dashboard-nav button").forEach(button => {
+    button.classList.toggle("active", button.dataset.view === viewId);
+  });
+  if (viewId === "settingsView") {
+    $("settingsStudioNamePreview").textContent = $("studioName").value || "Your photography studio";
+  }
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+document.querySelectorAll(".dashboard-nav button").forEach(button => {
+  button.addEventListener("click", () => switchView(button.dataset.view));
+});
+
+$("homeUploadBtn").addEventListener("click", () => switchView("uploadView"));
+$("homeSettingsBtn").addEventListener("click", () => switchView("settingsView"));
+$("homeProfileBtn").addEventListener("click", () => switchView("settingsView"));
+$("viewAllGalleriesBtn").addEventListener("click", () => switchView("uploadView"));
+
+$("settingsTopBtn").addEventListener("click", () => switchView("settingsView"));
+
+function showLogin() {
+  show("loginPanel", true);
+  show("adminArea", false);
+  $("authHeading").textContent = signupMode ? "Create Photographer Account" : "Photographer Login";
+  $("authIntro").textContent = signupMode
+    ? "Register your studio to start sharing wedding galleries."
+    : "Sign in to manage your wedding galleries.";
+  $("authSubmit").textContent = signupMode ? "Create Account" : "Login";
+  $("signupBtn").textContent = signupMode ? "Back to Login" : "Create Photographer Account";
+  $("forgotBtn").classList.toggle("hidden", signupMode);
+}
+
+$("signupBtn").addEventListener("click", () => {
+  signupMode = !signupMode;
+  message("loginStatus", "");
+  showLogin();
+});
+
+$("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  $("authSubmit").disabled = true;
+  message("loginStatus", signupMode ? "Creating your account..." : "Signing in...");
+  try {
+    if (signupMode) {
+      await createUserWithEmailAndPassword(auth, email, password);
+      message("loginStatus", "Account created successfully!");
+    } else {
+      await signInWithEmailAndPassword(auth, email, password);
+      message("loginStatus", "");
+    }
+  } catch(error) {
+    console.error(error);
+    message("loginStatus", "Could not continue: " + error.message);
+  } finally {
+    $("authSubmit").disabled = false;
+  }
+});
+
+$("forgotBtn").addEventListener("click", async () => {
+  const email = $("email").value.trim();
+  if (!email) {
+    message("loginStatus", "Enter your email address first.");
+    $("email").focus();
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    message("loginStatus", "Password reset email sent. Check your inbox.");
+  } catch(error) {
+    message("loginStatus", "Could not send reset email: " + error.message);
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+  } catch(error) {
+    alert("Logout failed: " + error.message);
+  }
+});
+
+onAuthStateChanged(auth, async user => {
+  if (isGuestMode) return;
+  show("loginPanel", !user);
+  show("adminArea", Boolean(user));
+  show("logoutBtn", Boolean(user));
+  show("settingsTopBtn", Boolean(user));
+
+  if (user) {
+    switchView("homeView");
+    await loadStudio();
+    await loadWeddingList();
+  } else {
+    show("managePanel", false);
+    $("galleryList").replaceChildren();
+    $("recentGalleryList").replaceChildren();
+    allGalleries = [];
+    updateDashboardStats();
+  }
+});
+
+/* Studio profile */
+async function loadStudio() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const snap = await getDoc(doc(db, "studios", user.uid));
+    const s = snap.exists() ? snap.data() : {};
+
+    $("studioName").value = s.studioName || "";
+    $("studioPhone").value = s.phone || "";
+    $("studioWhatsapp").value = s.whatsapp || "";
+    $("studioEmail").value = s.email || user.email || "";
+    $("studioCity").value = s.city || "";
+    $("studioWebsite").value = s.website || "";
+    $("studioInstagram").value = s.instagram || "";
+    $("studioFacebook").value = s.facebook || "";
+    $("studioAddress").value = s.address || "";
+    $("studioTagline").value = s.tagline || "";
+
+    if (s.logoUrl) {
+      $("studioLogoPreview").src = s.logoUrl;
+      $("settingsLogoPreview").src = s.logoUrl;
+      show("studioLogoPreview", true);
+      show("settingsLogoPreview", true);
+    } else {
+      show("studioLogoPreview", false);
+      show("settingsLogoPreview", false);
+    }
+
+    updateStudioPreviews(s);
+    updateDashboardStats();
+  } catch(e) {
+    console.error(e);
+    message("studioStatus", "Could not load settings: " + e.message);
+  }
+}
+
+function updateStudioPreviews(s = {}) {
+  const name = s.studioName || $("studioName").value.trim() || "Your photography studio";
+  const short = [s.city || $("studioCity").value.trim(), s.phone || $("studioPhone").value.trim()].filter(Boolean).join(" · ");
+
+  $("studioNamePreview").textContent = name;
+  $("settingsStudioNamePreview").textContent = name;
+  $("studioShortPreview").textContent = short || "Add your studio details in Settings.";
+  $("settingsStudioShortPreview").textContent = short || "Your public studio profile";
+}
+
+$("studioName").addEventListener("input", () => {
+  $("studioNamePreview").textContent = $("studioName").value.trim() || "Your photography studio";
+  $("settingsStudioNamePreview").textContent = $("studioName").value.trim() || "Your photography studio";
+});
+
+$("studioForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const btn = $("saveStudioBtn");
+  btn.disabled = true;
+  message("studioStatus", "Saving studio settings...");
+
+  try {
+    let logoUrl = "";
+    const existing = await getDoc(doc(db, "studios", user.uid));
+    if (existing.exists()) logoUrl = existing.data().logoUrl || "";
+
+    const file = $("studioLogoFile").files[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) throw Error("Choose an image file.");
+      if (file.size > 5 * 1024 * 1024) throw Error("Logo must be smaller than 5 MB.");
+
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      fd.append("folder", "framefolio-gallery/logos");
+
+      const r = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {method: "POST", body: fd}
+      );
+      const result = await r.json();
+      if (!r.ok || !result.secure_url) throw Error(result.error?.message || "Logo upload failed.");
+      logoUrl = result.secure_url;
+    }
+
+    const profile = {
+      ownerUid: user.uid,
+      studioName: $("studioName").value.trim(),
+      phone: $("studioPhone").value.trim(),
+      whatsapp: $("studioWhatsapp").value.trim(),
+      email: $("studioEmail").value.trim(),
+      city: $("studioCity").value.trim(),
+      website: $("studioWebsite").value.trim(),
+      instagram: $("studioInstagram").value.trim(),
+      facebook: $("studioFacebook").value.trim(),
+      address: $("studioAddress").value.trim(),
+      tagline: $("studioTagline").value.trim(),
+      logoUrl,
+      isPublic: true,
+      updatedAt: serverTimestamp()
+    };
+
+    if (!existing.exists()) profile.createdAt = serverTimestamp();
+
+    await setDoc(doc(db, "studios", user.uid), profile, {merge: true});
+
+    if (logoUrl) {
+      $("studioLogoPreview").src = logoUrl;
+      $("settingsLogoPreview").src = logoUrl;
+      show("studioLogoPreview", true);
+      show("settingsLogoPreview", true);
+    }
+
+    $("studioLogoFile").value = "";
+    updateStudioPreviews(profile);
+    updateDashboardStats();
+    message("studioStatus", "Studio settings saved successfully.");
+  } catch(e) {
+    console.error(e);
+    message("studioStatus", "Could not save settings: " + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* Gallery creation */
+$("createGalleryForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const user = auth.currentUser;
+  const customerName = $("customerName").value.trim();
+
+  if (!user) {
+    message("createStatus", "Please log in again.");
+    return;
+  }
+
+  $("createBtn").disabled = true;
+  message("createStatus", "Creating gallery...");
+
+  try {
+    const ref = await addDoc(collection(db, "galleries"), {
+      customerName,
+      ownerUid: user.uid,
+      isPublic: true,
+      createdAt: serverTimestamp()
+    });
+
+    $("customerName").value = "";
+    message("createStatus", "Gallery created successfully.");
+    await loadWeddingList();
+    await openManageGallery(ref.id, customerName);
+  } catch(e) {
+    console.error(e);
+    message("createStatus", "Could not create gallery: " + e.message);
+  } finally {
+    $("createBtn").disabled = false;
+  }
+});
+
+/* Gallery search and dashboard */
+$("gallerySearch").addEventListener("input", renderGalleryLists);
+
+function updateDashboardStats() {
+  $("totalGalleryCount").textContent = allGalleries.length;
+  const profileName = $("studioName").value.trim();
+  $("studioCompletion").textContent = profileName ? "Set up" : "Not set";
+}
+
+function createGalleryCard(g, recent = false) {
+  const item = document.createElement("div");
+  item.className = "gallery-item";
+
+  const title = document.createElement("h3");
+  title.textContent = g.customerName || "Wedding Gallery";
+
+  const idText = document.createElement("p");
+  idText.textContent = "Gallery ID: " + g.id;
+
+  const actions = document.createElement("div");
+  actions.className = "gallery-actions";
+
+  const manage = document.createElement("button");
+  manage.textContent = "Manage";
+  manage.addEventListener("click", () => openManageGallery(g.id, g.customerName || "Wedding Gallery"));
+
+  const qr = document.createElement("button");
+  qr.className = "secondary";
+  qr.textContent = "Share QR";
+  qr.addEventListener("click", async () => {
+    await openManageGallery(g.id, g.customerName || "Wedding Gallery");
+    showQr();
+  });
+
+  actions.append(manage, qr);
+  item.append(title, idText, actions);
+  return item;
+}
+
+function renderGalleryLists() {
+  const term = $("gallerySearch").value.trim().toLowerCase();
+  const filtered = allGalleries.filter(g =>
+    String(g.customerName || "").toLowerCase().includes(term) ||
+    String(g.id || "").toLowerCase().includes(term)
+  );
+
+  $("galleryList").replaceChildren();
+  $("recentGalleryList").replaceChildren();
+
+  if (!allGalleries.length) {
+    message("galleryStatus", "No wedding galleries yet. Create your first one above.");
+    show("galleryEmpty", false);
+    show("recentEmpty", true);
+    return;
+  }
+
+  message("galleryStatus", `${filtered.length} of ${allGalleries.length} gallery/galleries`);
+  show("galleryEmpty", filtered.length === 0);
+  show("recentEmpty", false);
+
+  if (filtered.length === 0) {
+    message("galleryStatus", "No galleries match your search.");
+  } else {
+    filtered.forEach(g => $("galleryList").append(createGalleryCard(g)));
+  }
+
+  const recent = allGalleries.slice(0, 3);
+  if (recent.length) {
+    recent.forEach(g => $("recentGalleryList").append(createGalleryCard(g, true)));
+    show("recentEmpty", false);
+  } else {
+    show("recentEmpty", true);
+  }
+}
+
+async function loadWeddingList() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  message("galleryStatus", "Loading your galleries...");
+
+  try {
+    const snap = await getDocs(
+      query(collection(db, "galleries"), where("ownerUid", "==", user.uid))
+    );
+
+    allGalleries = snap.docs.map(d => ({id: d.id, ...d.data()}));
+
+    allGalleries.sort((a, b) => {
+      const at = a.createdAt?.seconds || 0;
+      const bt = b.createdAt?.seconds || 0;
+      return bt - at;
+    });
+
+    updateDashboardStats();
+    renderGalleryLists();
+  } catch(e) {
+    console.error(e);
+    message("galleryStatus", "Could not load galleries: " + e.message);
+  }
+}
+
+/* Gallery management, QR codes, and photo uploads */
+async function openManageGallery(id, name) {
+  currentGalleryId = id;
+  currentGalleryName = name;
+  $("manageTitle").textContent = "Manage: " + name;
+  show("managePanel", true);
+  show("qrArea", false);
+  $("photoFiles").value = "";
+  message("uploadStatus", "");
+  message("greetingStatus", "");
+  try {
+    const gallerySnap = await getDoc(doc(db, "galleries", id));
+    const galleryData = gallerySnap.exists() ? gallerySnap.data() : {};
+    $("eventGreetingTitle").value = galleryData.eventHeading || "Happy Wedding! ♡";
+    $("eventGreetingMessage").value = galleryData.eventMessage || "";
+    $("eventGreetingSubmessage").value = galleryData.eventSubmessage || "";
+  } catch (e) {
+    console.error(e);
+    message("greetingStatus", "Could not load this gallery's greeting: " + e.message);
+  }
+  await loadManagePhotos();
+  $("managePanel").scrollIntoView({behavior: "smooth", block: "start"});
+}
+
+$("saveGreetingBtn").addEventListener("click", async () => {
+  if (!auth.currentUser || !currentGalleryId) {
+    message("greetingStatus", "Open a gallery first.");
+    return;
+  }
+  const btn = $("saveGreetingBtn");
+  btn.disabled = true;
+  message("greetingStatus", "Saving greeting...");
+  try {
+    await setDoc(doc(db, "galleries", currentGalleryId), {
+      eventHeading: $("eventGreetingTitle").value.trim() || "Happy Wedding! ♡",
+      eventMessage: $("eventGreetingMessage").value.trim(),
+      eventSubmessage: $("eventGreetingSubmessage").value.trim(),
+      updatedAt: serverTimestamp()
+    }, {merge: true});
+    message("greetingStatus", "Greeting saved for this event!");
+  } catch (e) {
+    console.error(e);
+    message("greetingStatus", "Could not save greeting: " + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function showQr() {
+  if (!currentGalleryId) {
+    alert("Please open a wedding gallery first.");
+    return;
+  }
+  // This exact URL is also used by the working Open Guest Gallery link.
+  const link = new URL(galleryUrl(currentGalleryId), location.href).href;
+  $("guestLink").href = link;
+  $("guestLink").textContent = link;
+  const qr = $("qrImage");
+  qr.alt = "QR code for " + (currentGalleryName || "wedding gallery");
+  qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=600x600&format=png&ecc=H&margin=15&data=" + encodeURIComponent(link);
+  qr.onerror = () => message("qrStatus", "QR code could not load. Check your internet connection and try again.");
+  message("qrStatus", "Scan this square QR code with your phone camera.");
+  show("qrArea", true);
+}
+
+$("shareQrBtn").addEventListener("click", showQr);
+
+$("downloadQrBtn").addEventListener("click", async () => {
+  const img = $("qrImage");
+  if (!img.src || !currentGalleryId) {
+    alert("Open the QR code first.");
+    return;
+  }
+  try {
+    const response = await fetch(img.src);
+    if (!response.ok) throw new Error("QR image unavailable");
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = "FrameFolio-QR-" + safeFilename(currentGalleryName || currentGalleryId) + ".png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+    message("qrStatus", "QR code download started.");
+  } catch (error) {
+    console.error(error);
+    // Fallback: open the QR image in a new tab so it can be saved manually.
+    window.open(img.src, "_blank", "noopener");
+    message("qrStatus", "QR image opened in a new tab. Save the image from there.");
+  }
+});
+
+$("copyLinkBtn").addEventListener("click", async () => {
+  if (!currentGalleryId) return;
+  const link = galleryUrl(currentGalleryId);
+  try {
+    await navigator.clipboard.writeText(link);
+    alert("Guest gallery link copied!");
+  } catch {
+    prompt("Copy this guest gallery link:", link);
+  }
+});
+
+$("openGuestBtn").addEventListener("click", () => {
+  if (currentGalleryId) window.open(galleryUrl(currentGalleryId), "_blank", "noopener");
+});
+
+function safeName(name) {
+  return String(name || "photo.jpg").replace(/[\\/:*?"<>|]/g, "_").replace(/[\r\n]/g, "_");
+}
+
+function attachmentUrl(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname !== "res.cloudinary.com") return url;
+    const marker = "/upload/";
+    const i = u.pathname.indexOf(marker);
+    if (i < 0) return url;
+    const after = u.pathname.slice(i + marker.length);
+    if (/^fl_attachment(?:[,/]|$)/.test(after)) return url;
+    u.pathname = u.pathname.slice(0, i + marker.length) + "fl_attachment/" + after;
+    return u.href;
+  } catch {
+    return url;
+  }
+}
+
+async function downloadImage(url, filename) {
+  const name = safeName(filename || "framefolio-photo.jpg");
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw Error("Image request failed");
+    const blob = await r.blob();
+    const obj = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = obj;
+    a.download = name;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(obj), 3000);
+  } catch(e) {
+    console.warn(e);
+    const a = document.createElement("a");
+    a.href = attachmentUrl(url);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.download = name;
+    document.body.append(a);
+    a.click();
+    a.remove();
+  }
+}
+
+$("uploadBtn").addEventListener("click", async () => {
+  if (!auth.currentUser || !currentGalleryId) {
+    message("uploadStatus", "Open a gallery first.");
+    return;
+  }
+
+  const files = Array.from($("photoFiles").files || []);
+  if (!files.length) {
+    message("uploadStatus", "Choose at least one photo.");
+    return;
+  }
+
+  $("uploadBtn").disabled = true;
+  let success = 0;
+  const errors = [];
+
+  try {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file.type.startsWith("image/")) {
+        errors.push(file.name + ": not an image.");
+        continue;
+      }
+
+      message("uploadStatus", `Uploading ${i + 1} of ${files.length}: ${file.name}`);
+
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        fd.append("folder", "framefolio-gallery");
+
+        const r = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {method: "POST", body: fd}
+        );
+        const result = await r.json();
+        if (!r.ok || !result.secure_url) throw Error(result.error?.message || "Cloudinary upload failed.");
+
+        await addDoc(collection(db, "galleries", currentGalleryId, "photos"), {
+          url: result.secure_url,
+          name: file.name,
+          createdAt: serverTimestamp()
+        });
+        success++;
+      } catch(e) {
+        console.error(e);
+        errors.push(file.name + ": " + e.message);
+      }
+    }
+
+    await loadManagePhotos();
+    message("uploadStatus", `${success} photo(s) uploaded.` + (errors.length ? " Some uploads failed: " + errors.join(" | ") : ""));
+    $("photoFiles").value = "";
+  } finally {
+    $("uploadBtn").disabled = false;
+  }
+});
+
+async function loadManagePhotos() {
+  if (!currentGalleryId) return;
+
+  message("managePhotoStatus", "Loading photos...");
+  $("managePhotos").replaceChildren();
+
+  try {
+    const snap = await getDocs(collection(db, "galleries", currentGalleryId, "photos"));
+
+    if (snap.empty) {
+      message("managePhotoStatus", "No photos uploaded to this gallery yet.");
+      return;
+    }
+
+    message("managePhotoStatus", "");
+
+    for (const d of snap.docs) {
+      const p = {id: d.id, ...d.data()};
+      const card = document.createElement("div");
+      card.className = "photo-card";
+
+      const img = document.createElement("img");
+      img.src = p.url;
+      img.alt = p.name || "Wedding photo";
+      img.loading = "lazy";
+
+      const info = document.createElement("div");
+      info.className = "photo-info";
+
+      const name = document.createElement("div");
+      name.textContent = p.name || "Wedding photo";
+
+      const dl = document.createElement("button");
+      dl.className = "secondary";
+      dl.textContent = "Download Image";
+      dl.addEventListener("click", () => downloadImage(p.url, p.name));
+
+      const rm = document.createElement("button");
+      rm.className = "danger";
+      rm.textContent = "Remove from Gallery";
+      rm.addEventListener("click", async () => {
+        if (!confirm("Remove this photo from the gallery? The Cloudinary file itself will not be deleted.")) return;
+        try {
+          await deleteDoc(doc(db, "galleries", currentGalleryId, "photos", p.id));
+          await loadManagePhotos();
+        } catch(e) {
+          alert("Could not remove photo: " + e.message);
+        }
+      });
+
+      info.append(name, dl, rm);
+      card.append(img, info);
+      $("managePhotos").append(card);
+    }
+  } catch(e) {
+    console.error(e);
+    message("managePhotoStatus", "Could not load photos: " + e.message);
+  }
+}
+
+/* Guest studio details */
+function addContactLink(parent, label, url) {
+  if (!url) return;
+  try {
+    const u = new URL(url);
+    if (!["https:", "http:", "mailto:", "tel:"].includes(u.protocol)) return;
+    const a = document.createElement("a");
+    a.href = url;
+    a.textContent = label;
+    a.target = u.protocol.startsWith("http") ? "_blank" : "_self";
+    if (a.target === "_blank") a.rel = "noopener";
+    parent.append(a);
+  } catch {}
+}
+
+function renderGuestStudio(s = {}) {
+  $("guestStudioName").textContent = s.studioName || "Photography Studio";
+  $("guestStudioTagline").textContent = s.tagline || "";
+  $("guestStudioAddress").textContent = [s.address, s.city].filter(Boolean).join(", ");
+
+  if (s.logoUrl) {
+    $("guestStudioLogo").src = s.logoUrl;
+    show("guestStudioLogo", true);
+  } else {
+    show("guestStudioLogo", false);
+  }
+
+  const links = $("guestContactLinks");
+  links.replaceChildren();
+
+  if (s.phone) addContactLink(links, "Call studio", "tel:" + s.phone.replace(/[^\d+]/g, ""));
+  if (s.whatsapp) {
+    const n = s.whatsapp.replace(/\D/g, "");
+    if (n) addContactLink(links, "WhatsApp", "https://wa.me/" + n);
+  }
+  if (s.email) addContactLink(links, "Email studio", "mailto:" + s.email);
+  addContactLink(links, "Website", s.website);
+  addContactLink(links, "Instagram", s.instagram);
+  addContactLink(links, "Facebook", s.facebook);
+}
+
+async function loadGuestGallery() {
+  show("loginPanel", false);
+  show("adminArea", false);
+  show("logoutBtn", false);
+  show("settingsTopBtn", false);
+  show("notFoundArea", false);
+  show("guestArea", true);
+  message("guestPhotoStatus", "Loading wedding gallery...");
+
+  try {
+    const gs = await getDoc(doc(db, "galleries", galleryParam));
+    if (!gs.exists() || gs.data().isPublic !== true) {
+      show("guestArea", false);
+      show("notFoundArea", true);
+      return;
+    }
+
+    const g = gs.data();
+    currentGalleryName = g.customerName || "FrameFolio";
+    $("guestTitle").textContent = currentGalleryName + " — Photo Gallery";
+    $("guestGreetingTitle").textContent = g.eventHeading || "Happy Wedding! ♡";
+    $("guestGreetingMessage").textContent = g.eventMessage || "";
+    $("guestGreetingSubmessage").textContent = g.eventSubmessage || "";
+    show("guestGreetingMessage", Boolean(g.eventMessage && g.eventMessage.trim()));
+    show("guestGreetingSubmessage", Boolean(g.eventSubmessage && g.eventSubmessage.trim()));
+
+    if (g.ownerUid) {
+      const ss = await getDoc(doc(db, "studios", g.ownerUid));
+      const studio = ss.exists() && ss.data().isPublic === true ? ss.data() : {};
+      renderGuestStudio(studio);
+      $("guestStudioSignature").textContent = "WITH LOVE FROM " + (studio.studioName || "YOUR PHOTOGRAPHY STUDIO").toUpperCase();
+    } else {
+      renderGuestStudio({});
+      $("guestStudioSignature").textContent = "WITH LOVE FROM YOUR PHOTOGRAPHY STUDIO";
+    }
+
+    const ps = await getDocs(collection(db, "galleries", galleryParam, "photos"));
+    guestPhotos = ps.docs.map(d => ({id: d.id, ...d.data()}));
+    selectedPhotoIds.clear();
+    updateSelectionStatus();
+    renderGuestPhotos();
+
+    message("guestPhotoStatus", guestPhotos.length
+      ? `${guestPhotos.length} photo(s) available.`
+      : "No photos have been uploaded to this gallery yet.");
+  } catch(e) {
+    console.error(e);
+    message("guestPhotoStatus", "Could not load this gallery. Please check the link or try again later.");
+  }
+}
+
+function renderGuestPhotos() {
+  $("guestPhotos").replaceChildren();
+
+  for (const p of guestPhotos) {
+    const card = document.createElement("div");
+    card.className = "photo-card";
+
+    const img = document.createElement("img");
+    img.src = p.url;
+    img.alt = p.name || "Wedding photo";
+    img.loading = "lazy";
+
+    const info = document.createElement("div");
+    info.className = "photo-info";
+
+    const label = document.createElement("label");
+    const cb = document.createElement("input");
+    cb.className = "photo-select";
+    cb.type = "checkbox";
+    cb.checked = selectedPhotoIds.has(p.id);
+    label.append(cb, document.createTextNode("Select photo"));
+
+    cb.addEventListener("change", () => {
+      cb.checked ? selectedPhotoIds.add(p.id) : selectedPhotoIds.delete(p.id);
+      updateSelectionStatus();
+    });
+
+    const name = document.createElement("div");
+    name.textContent = p.name || "Wedding photo";
+
+    const dl = document.createElement("button");
+    dl.textContent = "Download Image";
+    dl.addEventListener("click", () => downloadImage(p.url, p.name));
+
+    info.append(label, name, dl);
+    card.append(img, info);
+    $("guestPhotos").append(card);
+  }
+}
+
+function updateSelectionStatus() {
+  message("selectionStatus", `${selectedPhotoIds.size} photo(s) selected.`);
+}
+
+$("selectAllBtn").addEventListener("click", () => {
+  guestPhotos.forEach(p => selectedPhotoIds.add(p.id));
+  renderGuestPhotos();
+  updateSelectionStatus();
+});
+
+$("clearSelectionBtn").addEventListener("click", () => {
+  selectedPhotoIds.clear();
+  renderGuestPhotos();
+  updateSelectionStatus();
+});
+
+/* Selected photo ZIP download */
+$("downloadZipBtn").addEventListener("click", async () => {
+  const chosen = guestPhotos.filter(p => selectedPhotoIds.has(p.id));
+
+  if (!chosen.length) {
+    message("zipStatus", "Select at least one photo first.");
+    return;
+  }
+  if (!window.JSZip) {
+    message("zipStatus", "ZIP library could not load. Check your internet connection and refresh.");
+    return;
+  }
+
+  const btn = $("downloadZipBtn");
+  btn.disabled = true;
+  message("zipStatus", "Preparing your ZIP file...");
+
+  try {
+    const zip = new window.JSZip();
+    const used = new Set();
+    const failed = [];
+    let added = 0;
+
+    for (let i = 0; i < chosen.length; i++) {
+      const p = chosen[i];
+      message("zipStatus", `Adding photo ${i + 1} of ${chosen.length}...`);
+
+      try {
+        const r = await fetch(p.url);
+        if (!r.ok) throw Error("Image request failed");
+
+        const blob = await r.blob();
+        let n = safeName(p.name || `photo-${i + 1}.jpg`);
+
+        if (used.has(n)) {
+          const dot = n.lastIndexOf(".");
+          n = dot > 0
+            ? n.slice(0, dot) + "-" + (i + 1) + n.slice(dot)
+            : n + "-" + (i + 1);
+        }
+
+        used.add(n);
+        zip.file(n, blob);
+        added++;
+      } catch(e) {
+        console.warn(e);
+        failed.push(p.name || p.id);
+      }
+    }
+
+    if (!added) throw Error("No photos could be added. Try individual downloads.");
+
+    message("zipStatus", "Creating ZIP file...");
+    const blob = await zip.generateAsync({type: "blob"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = safeName((currentGalleryName || "FrameFolio") + "-photos.zip");
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+    message("zipStatus", `ZIP download started with ${added} photo(s).` +
+      (failed.length ? ` ${failed.length} photo(s) could not be included; try downloading them individually.` : ""));
+  } catch(e) {
+    console.error(e);
+    message("zipStatus", "ZIP download failed: " + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+if (isGuestMode) {
+  loadGuestGallery();
+}
+</script>
+</body>
+</html>
